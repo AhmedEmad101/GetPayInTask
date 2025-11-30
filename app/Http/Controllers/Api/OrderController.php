@@ -12,6 +12,8 @@ use App\Actions\Payment\ProcessPaymentAction;
 use App\Http\Requests\CreateOrderRequest;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Resources\HoldResource;
+use App\Http\Resources\OrderResource;
 class OrderController extends Controller
 {use ApiResponseTrait;
    public function generate_order(CreateOrderRequest $request)
@@ -31,9 +33,8 @@ class OrderController extends Controller
             'expires_at' => $hold->expires_at,
         ],
         'order' => [
-            'id' => $order->id,
-            'order_status' => $order->order_status,
-            'payment_status' => $order->payment_status,
+            'hold'  => new HoldResource($hold),
+            'order' => new OrderResource($order),
         ],
     ], 'success');
 

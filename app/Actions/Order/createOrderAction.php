@@ -16,10 +16,6 @@ final class createOrderAction
             if (!$hold) {
                 throw new \Exception("Hold not found or expired");
             }
-            $product = $hold->product;
-            if ($hold->qty > $product->current_stock) {
-                throw new \Exception("Insufficient stock for the hold");
-            }
             $order = Order::create($dto->toArray());
             return $order;
         });
