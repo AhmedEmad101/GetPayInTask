@@ -28,14 +28,7 @@ class OrderController extends Controller
         $orderDTO = new OrderDTO(array_merge($data, ['hold_id' => $hold->id]));
         $order = createOrderAction::execute($orderDTO);
         return $this->successResponse([
-        'hold' => [
-            'id' => $hold->id,
-            'expires_at' => $hold->expires_at,
-        ],
-        'order' => [
-            'hold'  => new HoldResource($hold),
             'order' => new OrderResource($order),
-        ],
     ], 'success');
 
    }
