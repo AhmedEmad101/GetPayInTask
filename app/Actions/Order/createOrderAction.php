@@ -16,7 +16,17 @@ final class createOrderAction
             if (!$hold) {
                 throw new \Exception("Hold not found or expired");
             }
-            $order = Order::create($dto->toArray());
+            $product = $hold->product;
+            $unitPrice = $product->price;
+            $shippingCost = $product->shipping_cost ?? 0; 
+            $subtotal = ($unitPrice * $hold->qty) + $shippingCost;
+            $orderData = array_merge(
+                $dto->toArray(),
+                [
+                    'order_amount' => $subtotal,
+                ]
+            );
+            $order = Order::create($orderData);
             return $order;
         });
     }

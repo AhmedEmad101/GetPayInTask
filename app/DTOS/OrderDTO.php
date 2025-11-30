@@ -18,7 +18,6 @@ class OrderDTO
         $this->payment_status = $data['payment_status'];
         $this->order_status   = $data['order_status'];
         $this->payment_method = $data['payment_method'];
-        $this->order_amount   = $data['order_amount'];
         $this->order_group_id = $data['order_group_id'];
         $this->hold_id        = $data['hold_id'];
         $this->product_id = $data['product_id'];
@@ -37,7 +36,6 @@ class OrderDTO
             'payment_status' => $this->payment_status,
             'order_status'   => $this->order_status,
             'payment_method' => $this->payment_method,
-            'order_amount'   => $this->order_amount,
             'order_group_id' => $this->order_group_id,
             'hold_id'        => $this->hold_id,
         ];

@@ -22,7 +22,6 @@ class CreateOrderRequest extends FormRequest
             'order_status'   => 'required|integer|min:0',
             'payment_method' => 'required|string|in:cash,card,wallet,bank_transfer',
             'product_id'   => 'required|numeric|exists:products,id',
-            'order_amount'   => 'required|numeric|min:0',
             'order_group_id' => 'required|string|max:255',
             'qty'=> 'required|numeric|min:1',
             
@@ -44,9 +43,6 @@ class CreateOrderRequest extends FormRequest
             'payment_method.required' => 'Payment method is required.',
             'payment_method.string'   => 'Payment method must be text.',
             'payment_method.in'       => 'Payment method must be one of: cash, card, wallet, bank_transfer.',
-            'order_amount.required' => 'Order amount is required.',
-            'order_amount.numeric'  => 'Order amount must be a numeric value.',
-            'order_amount.min'      => 'Order amount cannot be less than 0.',
             'order_group_id.required' => 'Order group ID is required.',
             'order_group_id.string'   => 'Order group ID must be text.',
             'order_group_id.max'      => 'Order group ID cannot exceed 255 characters.',
