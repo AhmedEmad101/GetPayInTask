@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\DTOs\OrderDTO;
+use App\DTOs\HoldDTO;
+use App\Actions\Order\createOrderAction;
+use App\Actions\Hold\createHoldAction;
+use App\Actions\Payment\ProcessPaymentAction;
+use App\Http\Requests\CreateOrderRequest;
+use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\Cache;
+class OrderController extends Controller
+{use ApiResponseTrait;
+   public function generate_order(CreateOrderRequest $request)
+   {
+     $data = $request->validated();
+    $holdDTO = new HoldDTO([
+            'product_id' => $data['product_id'],
+            'user_id'    => auth()->id(),
+            'qty'        => $data['qty'],
+        ]);
+        $hold = createHoldAction::execute($holdDTO);
+        $orderDTO = new OrderDTO(array_merge($data, ['hold_id' => $hold->id]));
+        $order = createOrderAction::execute($orderDTO);
+        return $this->successResponse([
+        'hold' => [
+            'id' => $hold->id,
+            'expires_at' => $hold->expires_at,
+        ],
+        'order' => [
+            'id' => $order->id,
+            'order_status' => $order->order_status,
+            'payment_status' => $order->payment_status,
+        ],
+    ], 'success');
+
+   }
+}
