@@ -13,10 +13,9 @@ final class handleFailedPaymentAction
             'order_status' => 'cancelled',
         ]);
 
-        // Restore stock from hold
         if ($order->hold) {
             $order->hold->product->increment('current_stock', $order->hold->qty);
-            $order->hold->delete(); // optional, remove the hold
+            $order->hold->delete(); 
         }
     }
 }

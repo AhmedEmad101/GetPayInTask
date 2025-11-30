@@ -1,7 +1,7 @@
 <?php
 
 namespace App\DTOs;
-
+use App\Actions\Hold\generateUniqueKeyAction;
 class OrderDTO
 {
     public int $user_id;
@@ -18,7 +18,7 @@ class OrderDTO
         $this->payment_status = $data['payment_status'];
         $this->order_status   = $data['order_status'];
         $this->payment_method = $data['payment_method'];
-        $this->order_group_id = $data['order_group_id'];
+        $this->order_group_id = generateUniqueKeyAction::execute();
         $this->hold_id        = $data['hold_id'];
         $this->product_id = $data['product_id'];
     }

@@ -3,7 +3,7 @@
 namespace App\Actions\Hold;
 use Illuminate\Support\Str;
 
-final class generateUnikeKeyAction
+final class generateUniqueKeyAction
 {
     public static function execute()
     { 

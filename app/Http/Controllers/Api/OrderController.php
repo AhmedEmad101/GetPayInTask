@@ -8,6 +8,7 @@ use App\DTOs\OrderDTO;
 use App\DTOs\HoldDTO;
 use App\Actions\Order\createOrderAction;
 use App\Actions\Hold\createHoldAction;
+use App\Actions\Order\getUserOrdersAction;
 use App\Actions\Payment\ProcessPaymentAction;
 use App\Http\Requests\CreateOrderRequest;
 use App\Traits\ApiResponseTrait;
@@ -18,6 +19,7 @@ class OrderController extends Controller
 {use ApiResponseTrait;
    public function generate_order(CreateOrderRequest $request)
    {
+       try {
      $data = $request->validated();
     $holdDTO = new HoldDTO([
             'product_id' => $data['product_id'],
@@ -30,6 +32,22 @@ class OrderController extends Controller
         return $this->successResponse([
             'order' => new OrderResource($order),
     ], 'success');
-
+       }
+      catch (\Exception $e) {
+            return $this->errorResponse(
+                $e->getMessage(),
+                422
+            );
+        }
    }
+ public function get_user_orders()
+{
+    $orders = getUserOrdersAction::execute(['product', 'hold']);
+    if($orders){
+    return $this->successResponse([
+        'orders' => OrderResource::collection($orders)
+    ]);
+}
+return $this->errorResponse('No Orders found',404);
+}  
 }
