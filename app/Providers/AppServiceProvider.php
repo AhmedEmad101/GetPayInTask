@@ -5,8 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Hold;
 use App\Observers\HoldObserver;
-use App\Models\Order;
-use App\Observers\OrderObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -22,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     { Hold::observe(HoldObserver::class);
-      Order::observe(OrderObserver::class);
        
     }
 }
